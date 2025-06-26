@@ -38,7 +38,7 @@ const directions: [number, number][] = [
 for (let y = 0; y < charBoard.length; y++) {
   for (let x = 0; x < charBoard[0]!.length; x++) {
     for (const [dx, dy] of directions) {
-      let match = true; // why true to start?
+      let match = true;
       for (let k = 0; k < word.length; k++) {
         const nx = x + k * dx;
         const ny = y + k * dy;
@@ -62,4 +62,26 @@ for (let y = 0; y < charBoard.length; y++) {
   }
 }
 
-console.log(matches);
+// PART 2
+let matches2 = 0;
+const okStrings: string[] = ["MMSS", "SSMM", "MSMS", "SMSM"];
+
+for (let y = 1; y < charBoard.length - 1; y++) {
+  for (let x = 1; x < charBoard[0]!.length - 1; x++) {
+    // a is the center of a MAS X no matter what, start when we find one
+    if (charBoard[y]![x] === "A") {
+      // grab corners around the A; clockwise starting top left
+      const comparisonStr: string =
+        charBoard[y - 1]![x - 1]! +
+        charBoard[y - 1]![x + 1]! +
+        charBoard[y + 1]![x - 1]! +
+        charBoard[y + 1]![x + 1]!;
+
+      if (okStrings.includes(comparisonStr)) {
+        matches2++;
+      }
+    }
+  }
+}
+
+console.log(matches2);
